@@ -1,0 +1,60 @@
+use location_ski;
+-- Liste des clients (toutes les informations) dont le nom commence par un D
+select * from clients
+where nom like 'D%';
+
+-- Nom et prénom de tous les clients
+select nom, prenom from clients;
+
+-- Liste des fiches (n°, état) pour les clients (nom, prénom) qui habitent en Loire Atlantique (44)
+select fiches.noFic, fiches.etat, clients.nom, clients.prenom from fiches
+inner join clients on fiches.noCli = clients.noCli
+where clients.cpo like '44%';
+
+-- Détail de la fiche n°1002
+select fiches.noFic, clients.nom, clients.prenom, articles.refart, articles.designation, 
+lignesFic.depart, lignesFic.retour, tarifs.prixjour, (datediff(if(lignesFic.retour is null, now(), lignesFic.retour), lignesFic.depart)+1) * tarifs.prixjour as 'montant' from fiches
+inner join clients on fiches.noCli = clients.noCli
+inner join lignesFic on fiches.noFic = lignesFic.noFic
+inner join articles on 	lignesFic.refart = articles.refart
+inner join categories on articles.codeCate = categories.codeCate
+inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
+where fiches.noFic = 1002
+group by articles.refart;
+
+-- Prix journalier moyen de location par gamme
+select gammes.libelle, avg(tarifs.prixjour) as 'tarif journalier moyen' from gammes
+inner join grilleTarifs on gammes.codeGam = grilleTarifs.codeGam
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
+group by gammes.libelle;
+
+-- Détail de la fiche n°1002 avec le total
+select fiches.noFic, clients.nom, clients.prenom, articles.refart, articles.designation, 
+lignesFic.depart, lignesFic.retour, tarifs.prixjour, 
+(datediff(if(lignesFic.retour is null, now(), lignesFic.retour), lignesFic.depart)+1) * tarifs.prixjour as 'montant',
+sum('montant') as 'Total' from fiches -- total pas trouvé
+inner join clients on fiches.noCli = clients.noCli
+inner join lignesFic on fiches.noFic = lignesFic.noFic
+inner join articles on 	lignesFic.refart = articles.refart
+inner join categories on articles.codeCate = categories.codeCate
+inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
+where fiches.noFic = 1002
+group by articles.refart;
+
+-- 	Grille des tarifs
+select categories.libelle, gammes.libelle, tarifs.libelle, tarifs.prixjour 
+from categories inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
+inner join gammes on grilleTarifs.codeGam = gammes.codeGam
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
+order by gammes.codeGam;
+
+-- Liste des locations de la catégorie SURF
+select articles.refart, articles.designation, count(articles.refart) as 'nbLocation' from articles
+where articles.refart like 'S%'
+group by articles.refart;
+
+-- Calcul du nombre moyen d’articles loués par fiche de location
+
+
