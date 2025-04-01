@@ -4,7 +4,7 @@
 
 | film | acteur_prenom | acteur_nom |
 |--- |--- |--- |
-|ONce UpON the time |  Brad | PITT |
+|Once Upon the time |  Brad | PITT |
 |Fight Club |  Brad | PITT |
 
 ```sql
