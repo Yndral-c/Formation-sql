@@ -236,8 +236,3 @@ from articles
 where articles.refart like 'S%'
 group by articles.refart;
 ```
-
-:nine: Calcul du nombre moyen d’articles loués par fiche de location 
-|nb_lignes_moyen_par_fiche|
-|---|
-|2.375000|  
