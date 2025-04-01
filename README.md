@@ -11,7 +11,7 @@
 lorem upsum  
 **gras**  
 *italique*  
-==surligner==  
+<mark>surligner</mark>  
 <code>ficher.md</code>
 
 liste :  
