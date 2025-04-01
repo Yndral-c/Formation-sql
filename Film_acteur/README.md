@@ -4,7 +4,7 @@
 
 | film | acteur_prenom | acteur_nom |
 |--- |--- |--- |
-|Once Upon the time |  Brad | PITT |
+|ONce UpON the time |  Brad | PITT |
 |Fight Club |  Brad | PITT |
 
 ```sql
@@ -29,19 +29,19 @@ WHERE acteur_id=1
 ```sql
 USE prime_vdo;
 
-select 
+SELECT 
 film.nom, acteur.prenom, acteur.nom 
-from film
-join film_has_acteur on film.id = film_has_acteur.film_id
-join acteur on film_has_acteur.acteur_id = acteur.id;
+FROM film
+JOIN film_has_acteur ON film.id = film_has_acteur.film_id
+JOIN acteur ON film_has_acteur.acteur_id = acteur.id;
 ```
 
 :three: Ajouter un film TITANIC
 ```sql
 USE prime_vdo;
 
-insert into film(nom)
-values ('TITANIC');
+INSERT INTO film(nom)
+VALUES ('TITANIC');
 ```
   
 
@@ -57,16 +57,16 @@ SELECT
 film.nom, 
 acteur_id
 FROM film
-LEFT JOIN film_has_acteur on film.id=film_has_acteur.film_id
+LEFT JOIN film_has_acteur ON film.id=film_has_acteur.film_id
 WHERE acteur_id IS NULL
 ```  
-:five: Associer Leonardo DICAPRIO dans le film TITANIC  
+:five: Associer LeONardo DICAPRIO dans le film TITANIC  
 
 ```sql
 USE prime_vdo;
 
-insert into film_has_acteur(film_id, acteur_id)
-values (3, 2);
+INSERT INTO film_has_acteur(film_id, acteur_id)
+VALUES (3, 2);
 ```
 
 :six: Afficher tous les film avec acteurs 
@@ -80,11 +80,11 @@ values (3, 2);
 ```sql
 USE prime_vdo;
 
-select 
+SELECT 
 film.nom, acteur.prenom, acteur.nom 
-from film
-join film_has_acteur on film.id = film_has_acteur.film_id
-join acteur on film_has_acteur.acteur_id = acteur.id;
+FROM film
+JOIN film_has_acteur ON film.id = film_has_acteur.film_id
+JOIN acteur ON film_has_acteur.acteur_id = acteur.id;
 ```  
 
 :seven: Ajouter un acteur TOM CRUISE  
@@ -104,22 +104,22 @@ VALUES ('TOM','CRUISE');
 ```sql
 USE prime_vdo;
 
-select acteur.prenom, acteur.nom, count(film.id) as 'nb_film' from acteur
-left join film_has_acteur on acteur.id = film_has_acteur.acteur_id
-left join film on film.id = film_has_acteur.film_id
-group by acteur.nom;
+SELECT acteur.prenom, acteur.nom, count(film.id) as 'nb_film' FROM acteur
+LEFT JOIN film_has_acteur ON acteur.id = film_has_acteur.acteur_id
+LEFT JOIN film ON film.id = film_has_acteur.film_id
+GROUP BY acteur.nom;
 ```
 
-**9** - Afficher les acteurs ayant jouer dans 2 films avec <code>HAVING</code>
+**9** - Afficher les acteurs ayant jouer dans 2 films avec <code>Having</code>
 
 ```sql
 USE prime_vdo;
 
-select acteur.prenom, acteur.nom, count(film.id)
-from acteur 
-inner join film_has_acteur on acteur.id = film_has_acteur.acteur_id
-inner join film on film.id=film_has_acteur.film_id
-group by acteur.nom having count(film.id) > 0;
+SELECT acteur.prenom, acteur.nom, count(film.id)
+FROM acteur 
+INNER JOIN film_has_acteur ON acteur.id = film_has_acteur.acteur_id
+INNER JOIN film ON film.id=film_has_acteur.film_id
+GROUP BY acteur.nom HAVING count(film.id) > 0;
 ```  
 
 **10** - En moyenne Combien d'acteurs jouent dans 1 film ?
