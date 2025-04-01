@@ -1,4 +1,6 @@
 use prime_vdo;
+
+
 select acteur.prenom, acteur.nom, count(film.id) from film join film_has_acteur on film.id = film_has_acteur.film_id
 join acteur on film_has_acteur.acteur_id = acteur.id
 group by acteur.prenom;
