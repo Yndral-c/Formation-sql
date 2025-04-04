@@ -57,4 +57,10 @@ group by articles.refart;
 
 -- Calcul du nombre moyen d’articles loués par fiche de location
 
+use location_ski;
 
+select avg(nb_lignes_moyen_par_fiche )
+from (
+select count(noLig) as nb_lignes_moyen_par_fiche 
+from lignesFic
+group by noFic) as subquery
