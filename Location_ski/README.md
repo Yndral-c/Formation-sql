@@ -236,3 +236,49 @@ from articles
 where articles.refart like 'S%'
 group by articles.refart;
 ```
+:nine: Calcul du nombre moyen d’articles loués par fiche de location
+```sql
+use location_ski;
+
+select avg(nb_lignes_moyen_par_fiche )
+from (
+select count(noLig) as nb_lignes_moyen_par_fiche 
+from lignesFic
+group by noFic) as subquery
+```
+
+**10** - Calcul du nombre de fiches de location établies pour les catégories de location Ski alpin, Surf et Patinette
+|catégorie|nombre de location|
+|---|---|
+|Ski alpin|2|
+|Patinette|1|
+|Surf|6|
+
+```sql
+use location_ski;
+
+select categories.libelle, count(lignesFic.noFic)
+from categories
+join articles on categories.codeCate = articles.codeCate
+join lignesFic on articles.refart = lignesFic.refart
+where categories.codeCate in ('SURF', 'PA', 'SA')
+group by categories.libelle
+```
+
+**11** Calcul du montant moyen des fiches de location
+|montant moyen d'une fiche de location|
+|---|
+|131.8750|
+
+```sql
+use location_ski;
+
+select avg((datediff(if(lignesFic.retour is null, now(), lignesFic.retour), lignesFic.depart)+1) * tarifs.prixjour) as 'montant'
+from fiches
+inner join clients on fiches.noCli = clients.noCli
+inner join lignesFic on fiches.noFic = lignesFic.noFic
+inner join articles on 	lignesFic.refart = articles.refart
+inner join categories on articles.codeCate = categories.codeCate
+inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
+```

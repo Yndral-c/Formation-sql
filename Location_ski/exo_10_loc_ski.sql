@@ -64,3 +64,15 @@ from (
 select count(noLig) as nb_lignes_moyen_par_fiche 
 from lignesFic
 group by noFic) as subquery
+
+-- Calcul du nombre de fiches de location établies pour les catégories de location Ski alpin, Surf et Patinette
+use location_ski;
+
+select categories.libelle, count(lignesFic.noFic)
+from categories
+join articles on categories.codeCate = articles.codeCate
+join lignesFic on articles.refart = lignesFic.refart
+where categories.codeCate in ('SURF', 'PA', 'SA')
+group by categories.libelle
+
+-- Calcul du montant moyen des fiches de location
