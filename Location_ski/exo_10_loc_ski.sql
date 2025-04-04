@@ -30,18 +30,27 @@ inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
 group by gammes.libelle;
 
 -- Détail de la fiche n°1002 avec le total
-select fiches.noFic, clients.nom, clients.prenom, articles.refart, articles.designation, 
-lignesFic.depart, lignesFic.retour, tarifs.prixjour, 
-(datediff(if(lignesFic.retour is null, now(), lignesFic.retour), lignesFic.depart)+1) * tarifs.prixjour as 'montant',
-sum('montant') as 'Total' from fiches -- total pas trouvé
-inner join clients on fiches.noCli = clients.noCli
-inner join lignesFic on fiches.noFic = lignesFic.noFic
-inner join articles on 	lignesFic.refart = articles.refart
-inner join categories on articles.codeCate = categories.codeCate
-inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
-inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
-where fiches.noFic = 1002
-group by articles.refart;
+USE location_ski;
+SELECT  f.noFic, nom, prenom, 
+	a.refart, designation, depart, retour, prixJour,
+(DATEDIFF(IFNULL(retour, NOW()+1),depart)+1)*prixJour as Montant, Total
+FROM 
+	fiches f
+	JOIN clients c USING (noCli)
+	JOIN lignesfic l ON f.noFic = l.noFic
+	JOIN articles a ON l.refart=a.refart
+	JOIN grilletarifs g ON (a.codeGam=g.codeGam AND a.codeCate=g.codeCate)
+	JOIN tarifs t ON g.codeTarif = t.codeTarif
+    JOIN (
+		SELECT  l.noFic,
+		SUM( (DATEDIFF(IFNULL(retour, NOW()+1),depart)+1)*prixJour) as total
+        FROM 
+			lignesfic l
+			JOIN articles a ON l.refart=a.refart
+			JOIN grilletarifs g ON (a.codeGam=g.codeGam AND a.codeCate=g.codeCate)
+			JOIN tarifs t ON g.codeTarif = t.codeTarif
+            WHERE l.noFic=1002
+            GROUP BY l.noFic ) info ON info.noFic = f.noFic;
 
 -- 	Grille des tarifs
 select categories.libelle, gammes.libelle, tarifs.libelle, tarifs.prixjour 
