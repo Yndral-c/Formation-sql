@@ -265,7 +265,7 @@ where categories.codeCate in ('SURF', 'PA', 'SA')
 group by categories.libelle
 ```
 
-**11** Calcul du montant moyen des fiches de location
+**11** - Calcul du montant moyen des fiches de location
 |montant moyen d'une fiche de location|
 |---|
 |131.8750|

@@ -76,3 +76,13 @@ where categories.codeCate in ('SURF', 'PA', 'SA')
 group by categories.libelle
 
 -- Calcul du montant moyen des fiches de location
+use location_ski;
+
+select avg((datediff(if(lignesFic.retour is null, now(), lignesFic.retour), lignesFic.depart)+1) * tarifs.prixjour) as 'montant'
+from fiches
+inner join clients on fiches.noCli = clients.noCli
+inner join lignesFic on fiches.noFic = lignesFic.noFic
+inner join articles on 	lignesFic.refart = articles.refart
+inner join categories on articles.codeCate = categories.codeCate
+inner join grilleTarifs on categories.codeCate = grilleTarifs.codeCate
+inner join tarifs on grilleTarifs.codeTarif = tarifs.codeTarif
