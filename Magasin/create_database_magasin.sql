@@ -13,6 +13,8 @@ create table clients(
     email varchar(255) not null,
     telephone varchar(10))ENGINE=InnoDB;
 
+create index idx_nom_clients on clients(nom);
+
 create table produits(
 	id_produits int not null primary key auto_increment,
     nom_produits varchar(50) not null,
@@ -35,3 +37,4 @@ create table detail_commande(
     FOREIGN KEY (id_commande) REFERENCES commandes(id_commandes),
     foreign key (id_produit) references produits(id_produits))engine=innodb
 
+explain select * from clients;
