@@ -20,6 +20,14 @@ liste :
         - sous sous liste rouge
 - vert
 
+### Index
+Permet de rendre une recherche plus rapide
+créer un index sur une clé primaire : pas utile -> Redondant
+Créer un index sur une clé étrangère : Très utile
+
+### Explain
+Affiche les colonnes et leurr utilité dans une table
+
 ### Gestion ds rôles et permissions SQL
 ```sql
 CREATE ROLE Read_Only;
@@ -40,3 +48,25 @@ Changer le port de connexion de base du serveur pour rendre plus difficile les a
 GRANT ALL PRIVILEGES
 ```
 
+### Création procédure stockée
+```sql
+DELIMITER //
+
+CREATE PROCEDURE EnregisterCommande (
+    IN p_client_id INT,
+    IN p_produits JSON
+)
+```
+
+```sql
+DECLARE variable1 INT
+DECLARE variable2 INT
+```
+### Appeler une procedur
+
+```sql
+CALL EnregisterCommande(
+    1,
+    '[{"produit_id" : 2, "quantite" : 3}, {"produit_id" : 4, "quantite" : 5}]'
+)
+```
