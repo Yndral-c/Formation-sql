@@ -20,3 +20,23 @@ liste :
         - sous sous liste rouge
 - vert
 
+### Gestion ds rôles et permissions SQL
+```sql
+CREATE ROLE Read_Only;
+GANT SELECT ON Clients TO Read_Only
+```
+
+### Journaux de sécurité
+Utiliser des logs pour détecter une tentative d'intrusion
+
+### MAJ des SGDB
+Les versions actuelles de certaines BDD sont trop ancienne ce qui empêche de les MAJ
+
+### Configuration d'un Pare-feu
+Changer le port de connexion de base du serveur pour rendre plus difficile les attaques sur les BDD
+
+### Accorder tous les probilèges à un user
+```sql
+GRANT ALL PRIVILEGES
+```
+

@@ -37,4 +37,4 @@ create table detail_commande(
     FOREIGN KEY (id_commande) REFERENCES commandes(id_commandes),
     foreign key (id_produit) references produits(id_produits))engine=innodb
 
-explain select * from clients;
+select * from clients;
